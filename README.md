@@ -30,7 +30,7 @@ If you experience any access issues, please notify the maintainer so permissions
 
 ---
 
-## Repository Structure (initial)
+## Repository Structure
 ```
 /
 ├─ README.md
@@ -38,6 +38,7 @@ If you experience any access issues, please notify the maintainer so permissions
 └─ GoogleScholarAPI_TechnicalReport.md
 └─ screenshots/
 ```
+
 
 
 
