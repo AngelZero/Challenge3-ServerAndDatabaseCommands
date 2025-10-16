@@ -6,7 +6,7 @@
 - **Sprint 3:** **Database integration (MySQL)** that stores **3 articles per researcher** (for **2** researchers total), with basic error handling.
 ---
 
-## Project Purpose
+## Project Purpose 
 Automate the retrieval of researcher and article information from Google Scholar (via an API provider) to support integration with the university’s research database.
 
 ## Key Functionalities (High-Level)
