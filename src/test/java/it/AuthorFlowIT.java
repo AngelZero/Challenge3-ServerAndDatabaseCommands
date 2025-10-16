@@ -35,7 +35,6 @@ public class AuthorFlowIT {
     @Test
     @DisplayName("Fetch author and validate name + at least one article")
     void fetchAuthor_and_validate_basic_fields() throws Exception {
-        // Example author_id; you can pass another via IntelliJ run config if you prefer
         String authorId = System.getProperty("authorId", "LSsXyncAAAAJ");
 
         ScholarAuthorClient client = new ScholarAuthorClient(apiKey);
