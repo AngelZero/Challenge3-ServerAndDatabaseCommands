@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS scholardb
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE scholardb;
+
+CREATE TABLE IF NOT EXISTS articles (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(1024) NOT NULL,
+  authors TEXT,
+  publication_date VARCHAR(32),
+  abstract TEXT,
+  link TEXT,
+  keywords TEXT,
+  cited_by INT
+);
