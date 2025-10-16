@@ -13,7 +13,7 @@ public class Main {
         }
 
         // Pass an author_id as a program argument, or use a test id.
-        String authorId = (args.length > 0) ? args[0] : "LSsXyncAAAAJ"; // example id used in SerpApi docs
+        String authorId = (args.length > 0) ? args[0] : "_xwYD2sAAAAJ"; // example id
 
         ScholarAuthorClient client = new ScholarAuthorClient(apiKey);
         ConsoleView view = new ConsoleView();

@@ -1,17 +1,18 @@
 # Challenge3-ServerAndDatabaseCommands
 
-**Overview:** High-level repository for Sprint 1–2 deliverables of the “Server and Database Commands” challenge.  
-This repo contains the technical documentation (Sprint 1) and a minimal **Java MVC** app that performs **GET** requests to the **Google Scholar Author API** via SerpApi (Sprint 2), plus a JUnit 5 test.
-
+**Overview:** Repository for Sprint 1–3 deliverables of the “Server and Database Commands” challenge.
+- **Sprint 1:** Technical report on Google Scholar API (via SerpApi).
+- **Sprint 2:** Minimal Java **MVC** app that performs **GET** requests to the **Google Scholar Author API** and prints results.
+- **Sprint 3:** **Database integration (MySQL)** that stores **3 articles per researcher** (for **2** researchers total), with basic error handling.
 ---
 
 ## Project Purpose
 Automate the retrieval of researcher and article information from Google Scholar (via an API provider) to support integration with the university’s research database.
 
 ## Key Functionalities (High-Level)
-- Perform HTTP GET requests to Google Scholar (Author API) through the API provider.
-- Document endpoints, authentication, query parameters, response formats, usage limits, and minimal code examples.
-- Provide a foundation for Java MVC integration (Sprint 2) and database integration (Sprint 3).
+- HTTP GET to Google Scholar (Author API) through SerpApi.
+- MVC separation: Service (HTTP), Controller (orchestration), Model (Author/Article), View (console).
+- Database integration: persist articles with required fields and basic error handling.
 
 ## Project Relevance
 Reduces manual data collection, standardizes academic metadata retrieval, and facilitates reliable downstream integration into the institution’s research database.
@@ -65,6 +66,64 @@ This project includes a JUnit 5 integration test that calls the SerpApi Google S
 
 ---
 
+## Sprint 3 — Database Integration (MySQL)
+
+Schema
+```
+CREATE DATABASE IF NOT EXISTS scholardb
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE scholardb;
+
+CREATE TABLE IF NOT EXISTS articles (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(1024) NOT NULL,
+  authors TEXT,
+  publication_date VARCHAR(32),
+  abstract TEXT,
+  link TEXT,
+  keywords TEXT,
+  cited_by INT
+);
+
+
+```
+
+Local Config
+```
+# SerpApi
+SERPAPI_KEY=real_key
+
+# MySQL (Workbench)
+DB_URL=jdbc:mysql://localhost:3306/scholardb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+DB_USER=root
+DB_PASSWORD=password
+
+```
+
+## What the app does (persistence)
+
+Controller fetches Author JSON → maps to Author + Article list.
+
+Saves the first 3 articles for the given author_id in a single transaction.
+
+Inserts a tag author:<author_id> into the keywords column so it can distinguish researchers without altering the schema.
+
+The sprint only requires 2 researchers × 3 articles each.
+Run the app twice with two different author_ids to meet this.
+
+## Verify (Workbench) 
+USE scholardb;
+
+-- Total rows should be 6 after two runs
+SELECT COUNT(*) AS total FROM articles;
+
+-- Rows for a specific researcher
+SELECT *
+FROM articles
+WHERE FIND_IN_SET('author:LSsXyncAAAAJ', REPLACE(keywords, ' ', ''));
+
+
 ## Repository Structure (current)
 
 ```
@@ -74,11 +133,22 @@ This project includes a JUnit 5 integration test that calls the SerpApi Google S
 │  ├─ GoogleScholar_API_Technical_Report.md
 │  └─ screenshots/
 ├─ src/
-│  ├─ main/java/...(MVC source)
-│  └─ test/java/...(JUnit 5 test)
-├─ .env                 # local only (gitignored)
+│  ├─ main/java/
+│  │  ├─ app/Main.java
+│  │  ├─ controller/AuthorController.java
+│  │  ├─ db/DbConfig.java
+│  │  ├─ db/ArticleRepository.java
+│  │  ├─ model/Author.java
+│  │  ├─ model/Article.java
+│  │  ├─ service/ScholarAuthorClient.java
+│  │  ├─ util/SimpleJson.java
+│  │  └─ view/ConsoleView.java
+│  └─ test/java/
+│     └─ it/AuthorFlowIT.java
+├─ .env               # local only (gitignored)
 ├─ .gitignore
 └─ pom.xml
+
 ```
 
 
