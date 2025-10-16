@@ -19,7 +19,7 @@ Reduces manual data collection, standardizes academic metadata retrieval, and fa
 ---
 
 ## Documentation (Sprint 1)
-- Technical Report: [`docs/GoogleScholarAPI_TechnicalReport.md`](docs/GoogleScholar_API_Technical_Report.md)
+- Technical Report: [`docs/GoogleScholarAPI_TechnicalReport.md`](docs/GoogleScholarAPI_TechnicalReport.md)
 
 > **Note:** Real API keys are **not** committed. I recommend the use of environment variables or a local `.env` (gitignored).
 
